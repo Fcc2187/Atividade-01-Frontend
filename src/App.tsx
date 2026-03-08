@@ -35,7 +35,7 @@ const MODE_TIMER_COLORS: Record<TimerMode, string> = {
 };
 
 // Component + Props:
-// This reusable button receives data and behavior from its parent via props.
+// This reusable button receives data and behavior from its parent via props
 function TabButton({ isActive, label, onClick }: TabButtonProps) {
   return (
     <button
