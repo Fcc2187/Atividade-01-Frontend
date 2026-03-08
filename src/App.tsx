@@ -114,8 +114,37 @@ function Tasks() {
     );
   }, []);
 
-  const removeTask = useCallback((id: string) => {
-    setTasks((previousTasks) => previousTasks.filter((task) => task.id !== id));
+  const removeTask = useCallback((taskToRemove: Task) => {
+    void Swal.fire({
+      icon: "warning",
+      title: "Remove task?",
+      text: `Are you sure you want to remove "${taskToRemove.title}"?`,
+      showCancelButton: true,
+      confirmButtonText: "Yes, remove",
+      cancelButtonText: "Cancel",
+      background: "#0f1b3d",
+      color: "#f7f8ff",
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#334155",
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        return;
+      }
+
+      setTasks((previousTasks) =>
+        previousTasks.filter((task) => task.id !== taskToRemove.id),
+      );
+
+      void Swal.fire({
+        icon: "success",
+        title: "Task removed",
+        text: "The task was removed successfully.",
+        timer: 1300,
+        showConfirmButton: false,
+        background: "#0f1b3d",
+        color: "#f7f8ff",
+      });
+    });
   }, []);
 
   return (
@@ -177,7 +206,7 @@ function Tasks() {
 
               <button
                 className="ml-3 rounded-lg border border-rose-400/60 px-3 py-1 text-sm text-rose-200 transition hover:bg-rose-500/20"
-                onClick={() => removeTask(task.id)}
+                onClick={() => removeTask(task)}
                 type="button"
               >
                 Remove
